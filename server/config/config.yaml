@@ -1,0 +1,31 @@
+# y-ai-accompany server_v2 configuration (y-ai-agent-base framework format)
+# Secrets (api_key) are read from environment variables.
+# Environment variable prefix: YAI_ (e.g. YAI_PROVIDERS_API_KEY, YAI_PROVIDERS_CHAT_MODEL)
+server:
+  port: 8080
+  mode: development
+
+providers:
+  # Global defaults — inherited by all roles when per-role field is empty.
+  api_key: ""
+  base_url: ""
+
+  # Chat provider (must be configured)
+  chat:
+    type: openai
+    model: "Qwen3.6-27B"
+
+  # Embedding provider (optional, nil = no vector search)
+  # embedding:
+  #   model: "text-embedding-3-large"
+
+  # Guard provider (optional, nil = safety always allowed)
+  # guard:
+  #   model: "gpt-4o-mini"
+
+auth:
+  jwt_expiry: 24h
+
+logging:
+  level: info
+  format: text

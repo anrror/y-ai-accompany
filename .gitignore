@@ -1,0 +1,58 @@
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+server/server.exe
+server/seed.exe
+server/debug.exe
+server/srvnew*.exe
+server/srvnew*.exe~
+
+# Build artifacts
+server/server_stdout.log
+server/server_stderr.log
+server/server_dbg.log
+server/server.pid
+
+# Debug/test artifacts
+server/tmp/
+server/*.bat
+server/*.ps1
+server/server_job.txt
+server/srv.com
+
+# Environment files with secrets
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Go
+vendor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Memory data (local demo)
+demo/memory_data/
+
+# AI-OS work state
+.ai/
+.omo/
+
+# Agent instructions (local only)
+AGENTS.md
+
+# Temp
+*.tmp
+*.log

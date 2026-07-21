@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  server:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "${PORT:-8080}"
+      API_BASE_URL: "${API_BASE_URL}"
+      API_KEY: "${API_KEY}"
+      LLM_MODEL: "${LLM_MODEL:-Qwen3.6-27B}"
+      EMBEDDING_MODEL: "${EMBEDDING_MODEL:-Qwen3-Embedding-8B}"
+      GUARD_MODEL: "${GUARD_MODEL:-Qwen3Guard-Gen-8B}"
+      POSTGRES_DSN: "postgres://agentplatform:agentplatform@postgres:5432/agentplatform?sslmode=disable"
+      REDIS_ADDR: "redis:6379"
+      REDIS_PASSWORD: ""
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: agentplatform
+      POSTGRES_PASSWORD: agentplatform
+      POSTGRES_DB: agentplatform
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentplatform"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+volumes:
+  pgdata:
+  redisdata:
